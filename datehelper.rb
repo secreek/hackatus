@@ -21,7 +21,7 @@ class DateTime
 
   def -(x)
     case x
-    when Hours; return (Time.at(self.to_time.to_i - (x.value + 8) * 3600)).to_datetime
+    when Hours; return (Time.at(self.to_time.to_i - (x.value) * 3600)).to_datetime
     else;       return self.old_subtract(x)
     end
   end

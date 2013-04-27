@@ -12,7 +12,7 @@ get '/summary.json' do
   }
   data_seqs = []
   commit_seq = {
-    "name" => "commits",
+    "title" => "commits",
     "refreshEveryNSeconds" => 60
   }
   commit_summary = []

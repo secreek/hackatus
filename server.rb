@@ -6,8 +6,10 @@ get '/summary.json' do
   response.headers["Content-Type"] = "application/json"
 
   summary = {
-    "title" => "Hackathon Status",
-    "refreshEveryNSeconds" => 60
+    "graph" => {
+      "title" => "Hackathon Status",
+      "refreshEveryNSeconds" => 60
+    }
   }
   commit_summary = []
   obj = JSON.load(open('config.json').read)
@@ -25,6 +27,6 @@ get '/summary.json' do
     puts first
     second["value"] - first["value"]
   end
-  summary["datapoints"] = commit_summary
+  summary["graph"]["datapoints"] = commit_summary
   summary.to_json
 end

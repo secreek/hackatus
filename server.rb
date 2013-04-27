@@ -45,7 +45,6 @@ get '/table.html' do
   obj = JSON.load(open('config.json').read)
   @projects = []
   @since = (DateTime.now - 1.hours).strftime("%FT%RZ")
-  puts @since
   obj["repos"].each do |repo|
     proj_info = {
       "name" => repo["name"]

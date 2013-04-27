@@ -44,15 +44,14 @@ get '/table.html' do
   html_erb = ERB::new(open("table.html.erb").read)
   obj = JSON.load(open('config.json').read)
   @projects = []
-  since = (DateTime.now - 1.hours).iso8601
-  puts since
+  @since = (DateTime.now - 1.hours).iso8601
   obj["repos"].each do |repo|
     proj_info = {
       "name" => repo["name"]
     }
     members = []
-    commits = Github.commits repo["path"], since
-    next unless commits
+    commits = Github.commits repo["path"], @since
+    commits ||= []
     commits.each do |commit|
       next unless commit["author"]
       member = {

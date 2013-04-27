@@ -21,7 +21,7 @@ class DateTime
 
   def -(x)
     case x
-    when Hours; return DateTime.new(year, month, day, hour-x.value, min, sec)
+    when Hours; return DateTime.new(year, month, day, hour - x.value - 8, min, sec)
     else;       return self.old_subtract(x)
     end
   end

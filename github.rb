@@ -13,10 +13,14 @@ class Github
     params
   end
 
-  def self.commit_count repo_name, since
-    user_uri = "https://api.github.com/repos/#{repo_name}/commits?since=#{since}"
+  def self.commits repo_path, since
+    commits_uri = "https://api.github.com/repos/#{repo_path}/commits?since=#{since}"
     params = self.prepare_gh_key_pair
-    return NetworkUtils.do_request_returning_json(user_uri, params).length
+    NetworkUtils.do_request_returning_json(commits_uri, params)
+  end
+
+  def self.commit_count repo_path, since
+    self.commits.length
   end
 
 end

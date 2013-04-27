@@ -1,0 +1,16 @@
+<table id="projects">
+      <% @projects.each do |project| %>
+      <tr>
+            <td class="projectName" style="width: 265px"><%= project["name"] %></td>
+
+            <td class="projectPersons">
+                  <% project["members"].each do |member| %>
+                  <img class="person" src="<%= member["avatar_url"] %>" />
+                  <% end %>
+            </td>
+            <td class="projectsBars">
+                  <div class="barSegment value<%= project["commits"]%>"></div>
+            </td>
+      </tr>
+      <% end %>
+</table>

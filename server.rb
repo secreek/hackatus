@@ -32,7 +32,8 @@ get '/summary.json' do
     second["value"] - first["value"]
   end
   commit_seq["datapoints"] = commit_summary
+  data_seqs << commit_seq
 
-  summary["graph"]["datasequences"] = commit_seq
+  summary["graph"]["datasequences"] = data_seqs
   summary.to_json
 end

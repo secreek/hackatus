@@ -1,10 +1,11 @@
 {
   "repos" : [
-    {"name" : "jerk", "path" : "secreek/jerk"},
-    {"name" : "slidown", "path" : "secreek/slidown"},
-    {"name" : "drinkup", "path" : "secreek/drinkup"},
-    {"name" : "hackatus", "path" : "secreek/hackatus"},
-	{"name" : "hackatus", "path" : "void-main/GitBuzzer"}
+    {"name" : "Jerk", "path" : "secreek/jerk"},
+    {"name" : "Slidown", "path" : "secreek/slidown"},
+    {"name" : "Drinkup", "path" : "secreek/drinkup"},
+    {"name" : "Hackatus!", "path" : "secreek/hackatus"},
+	{"name" : "Git Buzzer", "path" : "void-main/GitBuzzer"},
+	{"name" : "Cute Album", "path" : "longlongh4/Cute-Album"}
   ],
   "since" : "2013-04-20T10:00Z"
 }

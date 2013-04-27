@@ -44,7 +44,8 @@ get '/table.html' do
   html_erb = ERB::new(open("table.html.erb").read)
   obj = JSON.load(open('config.json').read)
   @projects = []
-  @since = (DateTime.now - 1.hours).iso8601
+  @since = (DateTime.now - 1.hours).strftime("%FT%RZ")
+  puts @since
   obj["repos"].each do |repo|
     proj_info = {
       "name" => repo["name"]

@@ -10,7 +10,9 @@
                   <% end %>
             </td>
             <td class="projectsBars">
-                  <div class="barSegment value<%= project["commits"]%>"></div>
+                  <% (1..project["commits"]).each do |v|%>
+                  <div class="barSegment value<%= v%>"></div>
+                  <% end %>
             </td>
       </tr>
       <% end %>

@@ -2,7 +2,9 @@ require 'sinatra'
 require 'json'
 require './github'
 
-get '/summary' do
+get '/summary.json' do
+  response.headers["Content-Type"] = "application/json"
+
   summary = {
     "title" => "Hackathon Status",
     "refreshEveryNSeconds" => 60

@@ -7,9 +7,13 @@ get '/summary.json' do
 
   summary = {
     "graph" => {
-      "title" => "Hackathon Status",
-      "refreshEveryNSeconds" => 60
+      "title" => "Hackathon Status"
     }
+  }
+  data_seqs = []
+  commit_seq = {
+    "name" => "commits",
+    "refreshEveryNSeconds" => 60
   }
   commit_summary = []
   obj = JSON.load(open('config.json').read)
@@ -27,6 +31,8 @@ get '/summary.json' do
     puts first
     second["value"] - first["value"]
   end
-  summary["graph"]["datapoints"] = commit_summary
+  commit_seq["datapoints"] = commit_summary
+
+  summary["graph"]["datasequences"] = commit_seq
   summary.to_json
 end

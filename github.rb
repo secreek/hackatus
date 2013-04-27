@@ -20,7 +20,7 @@ class Github
   end
 
   def self.commit_count repo_path, since
-    self.commits.length
+    self.commits(repo_path, since).length
   end
 
 end

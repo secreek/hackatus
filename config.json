@@ -1,0 +1,8 @@
+{
+  "repos" : [
+    {"name" : "jerk", "path" : "secreek/jerk"},
+    {"name" : "slidown", "path" : "secreek/slidown"},
+    {"name" : "drinkup", "path" : "secreek/drinkup"}
+  ],
+  "since" : "2013-04-20T10:00Z"
+}

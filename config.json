@@ -3,6 +3,7 @@
     {"name" : "jerk", "path" : "secreek/jerk"},
     {"name" : "slidown", "path" : "secreek/slidown"},
     {"name" : "drinkup", "path" : "secreek/drinkup"}
+    {"name" : "hackatus", "path" : "secreek/hackatus"}
   ],
   "since" : "2013-04-20T10:00Z"
 }

@@ -7,7 +7,7 @@ require './datehelper'
 get '/summary.json' do
   response.headers["Content-Type"] = "application/json"
 
-  color_array = ["yellow", "green", "red", "purple", "blue", "mediumGray", "pink", "aqua", "orange", "lightGray"]
+  color_array = ["yellow", "green", "red", "purple", "blue", "pink", "aqua", "orange", "lightGray"]
 
   summary = {
     "graph" => {

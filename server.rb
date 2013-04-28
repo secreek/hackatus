@@ -7,6 +7,8 @@ require './datehelper'
 get '/summary.json' do
   response.headers["Content-Type"] = "application/json"
 
+  color_array = ["yellow", "green", "red", "purple", "blue", "mediumGray", "pink", "aqua", "orange", "lightGray"]
+
   summary = {
     "graph" => {
       "title" => "Hackathon Status"
@@ -20,10 +22,11 @@ get '/summary.json' do
   commit_summary = []
   obj = JSON.load(open('config.json').read)
   since = obj["since"]
-  obj["repos"].each do |repo|
+  obj["repos"].each_with_index do |repo, idx|
     commit_info = {
       "title" => repo["name"],
-      "value" => Github.commit_count(repo["path"], since)
+      "value" => Github.commit_count(repo["path"], since),
+      "color" => color_array[idx % color_array.length]
     }
     commit_summary << commit_info
   end

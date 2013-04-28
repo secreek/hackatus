@@ -26,9 +26,11 @@ get '/summary.json' do
       "color" => color_array[idx % color_array.length],
       "refreshEveryNSeconds" => 60
     }
+    commits = Github.commits(repo["path"], since)
     commit_info = {
       "title" => "commits",
-      "value" => Github.commit_count(repo["path"], since)
+      "value" => commits.length,
+      "portait" => commits[0]["author"]["avatar_url"]
     }
     commit_summary << commit_info
     commit_seq["datapoints"] = commit_summary
@@ -45,6 +47,15 @@ end
 
 get '/table.html' do
   html_erb = ERB::new(open("table.html.erb").read)
+  fill_table_json
+  html_erb.result(binding)
+end
+
+get '/table.json' do
+  fill_table_json.to_json
+end
+
+def fill_table_json
   obj = JSON.load(open('config.json').read)
   @projects = []
   @since = (DateTime.now - 2.hours).strftime("%FT%RZ")
@@ -73,5 +84,6 @@ get '/table.html' do
   end
 
   @projects.sort! {|first, second| second["commit_count"] - first["commit_count"] }
-  html_erb.result(binding)
+
+  @projects
 end

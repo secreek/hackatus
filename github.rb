@@ -17,7 +17,9 @@ class Github
     commits_uri = "https://api.github.com/repos/#{repo_path}/commits"
     params = self.prepare_gh_key_pair
     params["since"] = since
-    NetworkUtils.do_request_returning_json(commits_uri, params)
+    commits = NetworkUtils.do_request_returning_json(commits_uri, params)
+    commits ||= []
+    commits
   end
 
   def self.commit_count repo_path, since

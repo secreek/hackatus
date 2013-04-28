@@ -9,7 +9,7 @@
                   <% end %>
             </td>
             <td class="projectsBars">
-                  <% (1..project["commits"]).each do |v|%>
+                  <% (1..project["commit_bar_count"]).each do |v|%>
                   <div class="barSegment value<%= v%>"></div>
                   <% end %>
             </td>

@@ -70,9 +70,12 @@ get '/table.html' do
     proj_info["members"] = members
 
     commit_count = commits.length
-    proj_info["commits"] = commit_count
-    proj_info["commits"] = 8 if (commit_count > 8)
+    proj_info["commit_count"] = commit_count
+    proj_info["commit_bar_count"] = commit_count
+    proj_info["commit_bar_count"] = 8 if (commit_count > 8)
     @projects << proj_info
   end
+
+  @projects.sort! {|first, second| second["commit_count"] - first["commit_count"] }
   html_erb.result(binding)
 end

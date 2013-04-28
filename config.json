@@ -1,9 +1,11 @@
 {
   "repos" : [
-  {"name" : "Jerk", "path" : "secreek/jerk"},
+  {"name" : "android-magicpad", "path" : "countcain/android-magicpad"},
   {"name" : "Slidown", "path" : "secreek/slidown"},
   {"name" : "Drinkup", "path" : "secreek/drinkup"},
   {"name" : "Hackatus!", "path" : "secreek/hackatus"},
+  {"name" : "ac-improved", "path" : "EmingK/ac-improved"},
+  {"name" : "Statistics-Board", "path" : "longlongh4/Statistics-Board"},
   {"name" : "Git Buzzer", "path" : "void-main/GitBuzzer"},
   {"name" : "Cute Album", "path" : "longlongh4/Cute-Album"}
   ],

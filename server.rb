@@ -9,19 +9,21 @@ get '/summary.json' do
 
   color_array = ["yellow", "green", "red", "purple", "blue", "mediumGray", "pink", "aqua", "orange", "lightGray"]
   random = Random.new
-  random_color = color_array[random.rand(color_array.length)]
+  random_color = color_array[random.rand color_array.length]
 
   summary = {
     "graph" => {
       "title" => "Hackathon Status"
     }
   }
+
   data_seqs = []
   commit_seq = {
     "title" => "commits",
-    "color" => color_array[random_color],
+    "color" => random_color,
     "refreshEveryNSeconds" => 60
   }
+
   commit_summary = []
   obj = JSON.load(open('config.json').read)
   since = obj["since"]

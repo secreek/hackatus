@@ -8,8 +8,6 @@ get '/summary.json' do
   response.headers["Content-Type"] = "application/json"
 
   color_array = ["yellow", "green", "red", "purple", "blue", "mediumGray", "pink", "aqua", "orange", "lightGray"]
-  random = Random.new
-  random_color = color_array[random.rand color_array.length]
 
   summary = {
     "graph" => {
@@ -18,30 +16,28 @@ get '/summary.json' do
   }
 
   data_seqs = []
-  commit_seq = {
-    "title" => "commits",
-    "color" => random_color,
-    "refreshEveryNSeconds" => 60
-  }
 
-  commit_summary = []
   obj = JSON.load(open('config.json').read)
   since = obj["since"]
   obj["repos"].each_with_index do |repo, idx|
-    commit_info = {
+    commit_summary = []
+    commit_seq = {
       "title" => repo["name"],
+      "color" => color_array[idx % color_array.length],
+      "refreshEveryNSeconds" => 60
+    }
+    commit_info = {
+      "title" => "commits",
       "value" => Github.commit_count(repo["path"], since)
     }
     commit_summary << commit_info
+    commit_seq["datapoints"] = commit_summary
+    data_seqs << commit_seq
   end
 
-  commit_summary.sort! do |first, second|
-    puts second
-    puts first
-    second["value"] - first["value"]
+  data_seqs.sort! do |first, second|
+    second["datapoints"][0]["value"] - first["datapoints"][0]["value"]
   end
-  commit_seq["datapoints"] = commit_summary
-  data_seqs << commit_seq
 
   summary["graph"]["datasequences"] = data_seqs
   summary.to_json

@@ -8,6 +8,8 @@ get '/summary.json' do
   response.headers["Content-Type"] = "application/json"
 
   color_array = ["yellow", "green", "red", "purple", "blue", "mediumGray", "pink", "aqua", "orange", "lightGray"]
+  random = Random.new
+  random_color = color_array[random.rand(color_array.length)]
 
   summary = {
     "graph" => {
@@ -17,6 +19,7 @@ get '/summary.json' do
   data_seqs = []
   commit_seq = {
     "title" => "commits",
+    "color" => color_array[random_color],
     "refreshEveryNSeconds" => 60
   }
   commit_summary = []
@@ -25,8 +28,7 @@ get '/summary.json' do
   obj["repos"].each_with_index do |repo, idx|
     commit_info = {
       "title" => repo["name"],
-      "value" => Github.commit_count(repo["path"], since),
-      "color" => color_array[idx % color_array.length]
+      "value" => Github.commit_count(repo["path"], since)
     }
     commit_summary << commit_info
   end

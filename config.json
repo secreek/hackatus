@@ -6,7 +6,8 @@
   {"name" : "ac-improved", "path" : "EmingK/ac-improved"},
   {"name" : "Statistics-Board", "path" : "longlongh4/Statistics-Board"},
   {"name" : "EatWhat", "path" : "guori12321/EatWhat"},
-  {"name" : "RPi-Maid", "path" : "KJlmfe/Raspberry-Pi-Maid"}
+  {"name" : "RPi-Maid", "path" : "KJlmfe/Raspberry-Pi-Maid"},
+  {"name" : "gis", "path" : "tonyzhu/gis"}
   ],
   "since" : "2013-04-28T02:00Z"
 }

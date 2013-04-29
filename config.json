@@ -7,10 +7,9 @@
   {"name" : "Statistics-Board", "path" : "longlongh4/Statistics-Board"},
   {"name" : "EatWhat", "path" : "guori12321/EatWhat"},
   {"name" : "RPi-Maid", "path" : "KJlmfe/Raspberry-Pi-Maid"},
-  {"name" : "gis", "path" : "tonyzhu/gis"}
-  {"name" : "drinkup", "path" : "secreek/drinkup"}
+  {"name" : "gis", "path" : "tonyzhu/gis"},
+  {"name" : "drinkup", "path" : "secreek/drinkup"},
   {"name" : "AirDropEmergency", "path" : "liushuaikobe/AirDropEmergency"}
-
   ],
   "since" : "2013-04-28T02:00Z"
 }

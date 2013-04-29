@@ -27,10 +27,18 @@ get '/summary.json' do
       "refreshEveryNSeconds" => 60
     }
     commits = Github.commits(repo["path"], since)
+
+    portait = "";
+    begin
+      portait = commits[0]["author"]["avatar_url"]
+    rescue Exception => e
+      portait = "https://secure.gravatar.com/avatar/8ecf5ff215d7f209af859eacdd1cb1f2?s=420&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"
+    end
+
     commit_info = {
       "title" => "commits",
       "value" => commits.length,
-      "portait" => commits[0]["author"]["avatar_url"]
+      "portait" => portait
     }
     commit_summary << commit_info
     commit_seq["datapoints"] = commit_summary

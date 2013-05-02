@@ -1,8 +1,11 @@
 require 'json'
 require './network_utils'
+require 'open-uri'
+require 'nokogiri'
 
 class Github
   include NetworkUtils
+  PERIODS = ['day','week','month']
 
   def self.prepare_gh_key_pair
     params = {
@@ -28,4 +31,16 @@ class Github
     commits.length
   end
 
+  # Getting Trending Repos by period
+  def self.trendsof period
+  
+    return false unless PERIODS.include?(period)
+      
+    uri = "https://github.com/explore/#{period}"
+    
+    doc = Nokogiri::HTML(open(uri))
+    elements = doc.xpath("//h2[contains(.,'Trending Repos')]/following-sibling::ol/li/h3")
+    repos = elements.map { |element| element.xpath('a').children.map { |text| text.to_s } }
+
+  end
 end

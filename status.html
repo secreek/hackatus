@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Hackathon Status</title>               
+    <script src="jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+
+    var txt = {"graph":{"title":"Hackathon Status","datasequences":[{"title":"android-magicpad","color":"yellow","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":30,"portait":"https://secure.gravatar.com/avatar/2b63eda8614b6223281c67d937ef8714?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"Slidown","color":"green","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":30,"portait":"https://secure.gravatar.com/avatar/5ce312d2343715f07324dabefea624ad?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"Hackatus!","color":"red","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":21,"portait":"https://secure.gravatar.com/avatar/df5199765ffe2251ff0d702b4102e272?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"ac-improved","color":"purple","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":17,"portait":"https://secure.gravatar.com/avatar/b94b8b77e490f1f07014932f481e77c4?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"Statistics-Board","color":"blue","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":15,"portait":"https://secure.gravatar.com/avatar/a73ef2abb3739c56872e040e994c631a?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"RPi-Maid","color":"aqua","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":11,"portait":"https://secure.gravatar.com/avatar/c01398244a51b20f2ae6ddd277e0702e?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"EatWhat","color":"pink","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":10,"portait":"https://secure.gravatar.com/avatar/a343fa4dd6387cde62efab8025ba2f7a?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"AirDropEmergency","color":"yellow","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":8,"portait":"https://secure.gravatar.com/avatar/d69c5905ecf42d68241c000a99b9703b?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"gis","color":"orange","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":5,"portait":"https://secure.gravatar.com/avatar/4b35654e2b3ba1d653a16c2f269e73e5?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]},{"title":"drinkup","color":"lightGray","refreshEveryNSeconds":60,"datapoints":[{"title":"commits","value":0,"portait":"https://secure.gravatar.com/avatar/8ecf5ff215d7f209af859eacdd1cb1f2?s=420&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"}]}]}};
+
+    window.onload = function() {
+        var title = txt.graph.title;
+        var _canvas = document.getElementById("chart");
+        _canvas.setAttribute("width", $(window).width() - 20); 
+        _canvas.setAttribute("height", $(window).height() - 20);
+        var _ctx = _canvas.getContext("2d");
+        var canvas_height = _ctx.canvas.height;
+        var canvas_width = _ctx.canvas.width;
+
+        /* coordinate system */
+        var origin_x = 10;
+        var origin_y = canvas_height - 50;
+        var max_x = canvas_width;
+        var max_y = canvas_height;
+
+        var max_value = 50;
+        var n = txt.graph.datasequences.length;
+        var col_width = max_x / n;
+
+        var img_width = col_width * 7 / 10;
+        var img_height = img_width;
+        var img = new Image();
+
+        for(var i=0; i<n; i++) {
+            var value = txt.graph.datasequences[i].datapoints[0].value;
+            var img_src = txt.graph.datasequences[i].datapoints[0].portait;
+            var color = txt.graph.datasequences[i].color;
+            img.src = img_src;
+
+            var x_pos = origin_x + i * col_width;
+            var y_pos = origin_y; 
+            var col_height  = value / max_value * max_y;
+            var img_x = x_pos + col_width / 10;
+            var img_y = y_pos - col_height - img_height - 40;
+            _ctx.drawImage(img, img_x, img_y, img_width, img_height);
+            _ctx.fillStyle = color;
+            _ctx.fillRect(x_pos, y_pos, col_width*9/10, -1*col_height);
+            _ctx.fillStyle = "black";
+            _ctx.font = 'italic bold 24px serif';
+            _ctx.textAlign = "center";
+            _ctx.textBaseline = "bottom";
+            _ctx.fillText(value, x_pos + col_width*9/10/2 , y_pos - col_height - 10);
+        }
+    };
+    </script>
+</head>
+<body>
+    <canvas id="chart"></canvas>       
+</body>
+</html>

@@ -3,6 +3,24 @@ require 'json'
 
 require './github'
 require './datehelper'
+require './network_utils'
+
+def explore_json
+  content = NetworkUtils.do_request 'https://github.com/explore'
+
+  repo_list = []
+  content.each_line do |line|
+    if match = /\ \/\ <a href=\"\/(.+)\/(.+)\"/.match(line)
+      content = {}
+      owner, name = match.captures
+      content["name"] = name
+      content["path"] = owner + "/" + name
+      repo_list << content
+    end
+  end
+
+  repo_list
+end
 
 get '/summary.json' do
   response.headers["Content-Type"] = "application/json"
@@ -17,8 +35,16 @@ get '/summary.json' do
 
   data_seqs = []
 
-  obj = JSON.load(open('config.json').read)
+  obj = {}
+  if params["explore"] == "true"
+    obj["repos"] = explore_json
+    obj["since"] = "2013-01-1T00:00Z"
+  else
+    obj = JSON.load(open('config.json').read)
+  end
+
   since = obj["since"]
+
   obj["repos"].each_with_index do |repo, idx|
     commit_summary = []
     commit_seq = {
@@ -64,7 +90,14 @@ get '/table.json' do
 end
 
 def fill_table_json
-  obj = JSON.load(open('config.json').read)
+  obj = {}
+  if params["explore"] == "true"
+    obj["repos"] = explore_json
+    obj["since"] = "2013-01-1T00:00Z"
+  else
+    obj = JSON.load(open('config.json').read)
+  end
+
   @projects = []
   @since = (DateTime.now - 2.hours).strftime("%FT%RZ")
   obj["repos"].each do |repo|

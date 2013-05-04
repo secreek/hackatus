@@ -18,9 +18,8 @@ class Github
 
   def self.commits repo_path, since
     commits_uri = "https://api.github.com/repos/#{repo_path}/commits"
-    puts commits_uri
     params = self.prepare_gh_key_pair
-    params["since"] = since
+    params["since"] = since if since
     commits = NetworkUtils.do_request_returning_json(commits_uri, params)
     commits ||= []
     commits

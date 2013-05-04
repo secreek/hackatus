@@ -38,7 +38,6 @@ get '/summary.json' do
   obj = {}
   if params["explore"] == "true"
     obj["repos"] = explore_json
-    obj["since"] = "2013-01-1T00:00Z"
   else
     obj = JSON.load(open('config.json').read)
   end
@@ -93,13 +92,13 @@ def fill_table_json
   obj = {}
   if params["explore"] == "true"
     obj["repos"] = explore_json
-    obj["since"] = "2013-01-1T00:00Z"
   else
     obj = JSON.load(open('config.json').read)
+    @since = (DateTime.now - 2.hours).strftime("%FT%RZ")
   end
 
   @projects = []
-  @since = (DateTime.now - 2.hours).strftime("%FT%RZ")
+
   obj["repos"].each do |repo|
     proj_info = {
       "name" => repo["name"]

@@ -9,7 +9,7 @@ class Panic
     "aqua", "orange", "lightGray"
   ]
 
-  # returns generated json string
+  # returns generated json obj
   def self.generate_summary title
     summary = {
       "graph" => {
@@ -26,7 +26,7 @@ class Panic
     end
 
     summary["graph"]["datasequences"] = data_seqs
-    summary.to_json
+    summary
   end
 
 end

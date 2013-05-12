@@ -25,7 +25,7 @@ get '/summary.json' do
 
   # generates data
   hackathon = Hackathon.new title, obj
-  hackathon.summary
+  hackathon.summary.to_json
 end
 
 get '/table.html' do

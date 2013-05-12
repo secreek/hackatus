@@ -18,13 +18,13 @@ class Hackathon
     raise "error: missing since time" unless @data.include? "since"
   end
 
-  # Generates the summary for panic status board from @data
-  def summary
+  # Generates the summary chart for panic status board from @data
+  def chart
     repos = @data["repos"]
     since = @data["since"]
     colors = Panic::COLOR_ARRAY
 
-    Panic.generate_summary @title do |data_seqs|
+    Panic.generate_chart @title do |data_seqs|
       repos.each_with_index do |repo, idx|
         commit_seq = {
           "title" => repo["name"],
@@ -55,4 +55,37 @@ class Hackathon
       end
     end
   end
+
+  # Generate table for panic status board from @data
+  def table html_template = nil
+    repos = @data["repos"]
+    since = @data["since"]
+
+    Panic.generate_table html_template do |projects|
+      repos.each do |repo|
+        proj_info = {
+          "name" => repo["name"]
+        }
+        members = []
+        commits = @github.commits repo["path"], since
+        commits ||= []
+        commits.each do |commit|
+          next unless commit["author"]
+          member = {
+            "name" => commit["author"]["login"],
+            "avatar_url" => commit["author"]["avatar_url"]
+          }
+          members << member unless members.include? member
+        end
+        proj_info["members"] = members
+
+        commit_count = commits.length
+        proj_info["commit_count"] = commit_count
+        proj_info["commit_bar_count"] = commit_count
+        proj_info["commit_bar_count"] = 8 if (commit_count > 8)
+        projects << proj_info
+      end
+    end
+  end
+
 end

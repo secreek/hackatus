@@ -1,3 +1,4 @@
+require 'erb'
 #
 # Panic status board
 #
@@ -10,7 +11,7 @@ class Panic
   ]
 
   # returns generated json obj
-  def self.generate_summary title
+  def self.generate_chart title
     summary = {
       "graph" => {
         "title" => title
@@ -27,6 +28,20 @@ class Panic
 
     summary["graph"]["datasequences"] = data_seqs
     summary
+  end
+
+  # returns generated html (or json if template not given)
+  def self.generate_table template
+    projects = []
+    yield(projects) if block_given?
+    projects.sort! {|first, second| second["commit_count"] - first["commit_count"] }
+
+    if template
+      erb = ERB::new template
+      erb.result binding
+    else # return pure json
+      projects
+    end
   end
 
 end

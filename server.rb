@@ -1,82 +1,31 @@
 require 'sinatra'
 require 'json'
 
-require './github'
-require './datehelper'
-require './network_utils'
-
-def explore_json
-  content = NetworkUtils.do_request 'https://github.com/explore'
-
-  repo_list = []
-  content.each_line do |line|
-    if match = /\ \/\ <a href=\"\/(.+)\/(.+)\"/.match(line)
-      content = {}
-      owner, name = match.captures
-      content["name"] = name
-      content["path"] = owner + "/" + name
-      repo_list << content
-    end
-  end
-
-  repo_list
-end
+require_relative 'utils/github'
+require_relative 'transformer/hackathon'
+require_relative 'target/panic'
 
 get '/summary.json' do
-  response.headers["Content-Type"] = "application/json"
-
-  color_array = ["yellow", "green", "red", "purple", "blue", "pink", "aqua", "orange", "lightGray"]
-
-  summary = {
-    "graph" => {
-      "title" => "Hackathon Status"
-    }
-  }
-
-  data_seqs = []
-
   obj = {}
-  if params["explore"] == "true"
-    obj["repos"] = explore_json
+  title = ""
+  case params["type"]
+  when "explore"
+    period = params["period"]
+    period = "day" unless Github.valid_period? period
+    obj["repos"] = Github.explore period
+    title = "Trending of the #{period.capitalize}"
   else
     obj = JSON.load(open('config.json').read)
+    title = "Hackathon Status"
   end
+  obj["since"] ||= 24.hours_ago # default to 24 hours ago
 
-  since = obj["since"]
-  since ||= 24.hours_ago # change to 24 hours
+  # Set file typ eo application/json
+  response.headers["Content-Type"] = "application/json"
 
-  obj["repos"].each_with_index do |repo, idx|
-    commit_summary = []
-    commit_seq = {
-      "title" => repo["name"],
-      "color" => color_array[idx % color_array.length],
-      "refreshEveryNSeconds" => 60
-    }
-    commits = Github.commits(repo["path"], since)
-
-    portait = "";
-    begin
-      portait = commits[0]["author"]["avatar_url"]
-    rescue Exception => e
-      portait = "https://secure.gravatar.com/avatar/8ecf5ff215d7f209af859eacdd1cb1f2?s=420&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"
-    end
-
-    commit_info = {
-      "title" => "commits",
-      "value" => commits.length,
-      "portait" => portait
-    }
-    commit_summary << commit_info
-    commit_seq["datapoints"] = commit_summary
-    data_seqs << commit_seq
-  end
-
-  data_seqs.sort! do |first, second|
-    second["datapoints"][0]["value"] - first["datapoints"][0]["value"]
-  end
-
-  summary["graph"]["datasequences"] = data_seqs
-  summary.to_json
+  # generates data
+  hackathon = Hackathon.new title, obj
+  hackathon.summary
 end
 
 get '/table.html' do

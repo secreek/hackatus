@@ -1,5 +1,5 @@
-require './network'
-require './date'
+require_relative './network'
+require_relative './date'
 
 # A wrapper class for Github API v3.
 #
@@ -57,6 +57,8 @@ class Github
   #--------------
   public
 
+  @@POSSBLE_PERIPD = ["day", "week", "month"]
+
   # Gets the repo list from `explore` of github in json format
   def self.explore period = "" # default = day
     content = NetworkUtils.do_request "https://github.com/explore/#{period}"
@@ -70,4 +72,9 @@ class Github
     end
     repo_list
   end
+
+  def self.valid_period? period
+    @@POSSBLE_PERIPD.include? period
+  end
+
 end

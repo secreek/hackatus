@@ -5,10 +5,6 @@ require './github'
 require './datehelper'
 require './network_utils'
 
-def since_hours_ago h
-  (DateTime.now - h.hours).strftime("%FT%RZ")
-end
-
 def explore_json
   content = NetworkUtils.do_request 'https://github.com/explore'
 
@@ -47,7 +43,7 @@ get '/summary.json' do
   end
 
   since = obj["since"]
-  since ||= since_hours_ago 24 # change to 24 hours
+  since ||= 24.hours_ago # change to 24 hours
 
   obj["repos"].each_with_index do |repo, idx|
     commit_summary = []
@@ -99,7 +95,7 @@ def fill_table_json
     obj["repos"] = explore_json
   else
     obj = JSON.load(open('config.json').read)
-    @since = since_hours_ago 2
+    @since = 2.hours_ago
   end
 
   @projects = []

@@ -34,4 +34,8 @@ class Fixnum
   def hours
     Hours.new(self)
   end
+
+  def hours_ago
+     (DateTime.now - h.hours).strftime("%FT%RZ")
+  end
 end

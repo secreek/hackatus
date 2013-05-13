@@ -3,7 +3,9 @@ require 'sinatra/namespace'
 require 'json'
 
 require_relative 'utils/github'
+require_relative 'utils/couchdb'
 require_relative 'transformer/hackathon'
+require_relative 'transformer/leaderboard'
 require_relative 'target/panic'
 
 # Hackatus for Hackathon
@@ -59,8 +61,15 @@ end
 
 
 # Hackatus for Leaderboard
-namespace '/Leaderboard' do
+namespace '/leaderboard' do
   get '/chart.json' do
+    # Set file typ eo application/json
+    response.headers["Content-Type"] = "application/json"
+
+    title = "Screek Leaderboard"
+    obj = CouchDB.score_board
+    leaderboard = Leaderboard.new title, obj
+    leaderboard.chart.to_json
   end
 end
 

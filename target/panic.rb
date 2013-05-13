@@ -34,7 +34,6 @@ class Panic
   def self.generate_table template
     projects = []
     yield(projects) if block_given?
-    projects.sort! {|first, second| second["commit_count"] - first["commit_count"] }
 
     if template
       erb = ERB::new template

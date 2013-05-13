@@ -85,6 +85,8 @@ class Hackathon
         proj_info["commit_bar_count"] = 8 if (commit_count > 8)
         projects << proj_info
       end
+
+      projects.sort! {|first, second| second["commit_count"] - first["commit_count"] }
     end
   end
 

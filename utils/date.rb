@@ -22,6 +22,7 @@ class DateTime
   def -(x)
     case x
     when Hours; return (Time.at(self.to_time.to_i - (x.value) * 3600).utc.to_datetime)
+    when DateTime; return (self.to_time.to_i - x.to_time.to_i) / 3600
     else;       return self.old_subtract(x)
     end
   end

@@ -24,7 +24,7 @@ namespace '/hackathon' do
   get '/table.html' do
     title, obj = parse_params params {|is_hackathon| 2 if is_hackathon  }
     hackathon = Hackathon.new title, obj
-    hackathon.table(open("template/table.html.erb").read)
+    hackathon.table(open("template/hackathon_table.html.erb").read)
   end
 
   get '/table.json' do
@@ -70,6 +70,20 @@ namespace '/leaderboard' do
     obj = CouchDB.score_board
     leaderboard = Leaderboard.new title, obj
     leaderboard.chart.to_json
+  end
+
+  get '/table.html' do
+    title = "Screek Leaderboard"
+    obj = CouchDB.activity_history
+    hackathon = Leaderboard.new title, obj
+    hackathon.table(open("template/leaderboard_table.html.erb").read)
+  end
+
+  get '/table.json' do
+    title = "Screek Leaderboard"
+    obj = CouchDB.activity_history
+    hackathon = Leaderboard.new title, obj
+    hackathon.table.to_json
   end
 end
 

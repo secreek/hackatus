@@ -80,7 +80,6 @@ class Leaderboard
         hour_array = Array.new(MONTH_HOUR, 0)
         value.each do |evt|
           hour = now - evt["date"] # start counting from 0
-          puts hour
           hour_array[hour] += evt["count"] unless hour >= MONTH_HOUR  # discard activity before a month
         end
 
@@ -95,7 +94,6 @@ class Leaderboard
           v = initial - slop * (idx % DAY_HOUR)
           hotness += commit_count * v
         end
-        puts hotness
         hotness = hotness.to_i
 
         hotness = 6 if hotness > 6                              # do not exceed 6, since we are adding 2 below

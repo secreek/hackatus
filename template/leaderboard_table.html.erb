@@ -1,0 +1,18 @@
+<table id="projects">
+      <% projects.each do |summary| %>
+      <tr>
+            <td class="projectName" style="width: 265px"><img class="person" src="<%= summary["avatar_url"] %>" /><%= summary["name"] %></td>
+
+            <td class="projectPersons">
+                  <% summary["badges"].each do |badge| %>
+                  <img class="person" src="<%= badge %>" />
+                  <% end %>
+            </td>
+            <td class="projectsBars">
+                  <% (1..summary["hotness"]).each do |v|%>
+                  <div class="barSegment value<%= v%>"></div>
+                  <% end %>
+            </td>
+      </tr>
+      <% end %>
+</table>
